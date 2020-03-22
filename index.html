@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+<!-- Font Awesome -->
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">-->
+
+<!-- Bootstrap Themes -->
+<!-- https://bootswatch.com/ -->
+
+<style>
+  body{
+
+  }
+  .container{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #canvas{
+    border-radius: 12px;
+    box-shadow: 2px 2px 5px #888;
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+
+    <canvas id="canvas" width="550" height="550"></canvas>
+
+  </div>
+
+<script>
+  var c = document.getElementById("canvas");
+  var ctx = c.getContext("2d");
+
+  // stars
+
+
+  var planets = {
+
+    "sun": {
+      "x": 275,
+      "y": 275,
+      "rad": {
+        "in": 40,
+        "out": 50
+      },
+      "color":{
+        "in": "yellow",
+        "out": "orange"
+      },
+      "ang": 0,
+      "speed": 0
+    },
+
+    "mercury": {
+      "x": 308 + 25,
+      "y": 275,
+      "rad": {
+        "in": 5,
+        "out": 8
+      },
+      "color":{
+        "in": "#f15c5e",
+        "out": "#f7282b"
+      },
+      "ang": 0,
+      "speed": 0
+    },
+
+    "venus": {
+      "x": 328 + 25,
+      "y": 275,
+      "rad": {
+        "in": 9,
+        "out": 12
+      },
+      "color":{
+        "in": "#b9a365",
+        "out": "#947d3d"
+      },
+      "ang": 0,
+      "speed": 0
+    },
+
+    "earth": {
+      "x": 352 + 25,
+      "y": 275,
+      "rad": {
+        "in": 9,
+        "out": 12
+      },
+      "color":{
+        "in": "#4c8d85",
+        "out": "#63c2ee"
+      },
+      "ang": 0,
+      "speed": 0
+    },
+
+    "mars": {
+      "x": 372 + 25,
+      "y": 275,
+      "rad": {
+        "in": 5,
+        "out": 8
+      },
+      "color":{
+        "in": "#f58c6c",
+        "out": "#f1605e"
+      },
+      "ang": 0,
+      "speed": 0
+    },
+
+    "jupiter": {
+      "x": 401 + 25,
+      "y": 275,
+      "rad": {
+        "in": 15,
+        "out": 21
+      },
+      "color":{
+        "in": "#f9b699",
+        "out": "#767b8a"
+      },
+      "ang": 0,
+      "speed": 0
+    },
+
+    "saturn": {
+      "x": 441 + 25,
+      "y": 275,
+      "rad": {
+        "in": 10,
+        "out": 19
+      },
+      "color":{
+        "in": "#baa566",
+        "out": "#6fc9bd"
+      },
+      "ang": 0,
+      "speed": 0
+    },
+
+    "uranus": {
+      "x": 477 + 25,
+      "y": 275,
+      "rad": {
+        "in": 12,
+        "out": 17
+      },
+      "color":{
+        "in": "#71c9bd",
+        "out": "#71c9bd"
+      },
+      "ang": 0,
+      "speed": 0
+    },
+
+    "neptune": {
+      "x": 509 + 25,
+      "y": 275,
+      "rad": {
+        "in": 12,
+        "out": 15
+      },
+      "color":{
+        "in": "#2298c8",
+        "out": "#cbced1"
+      },
+      "ang": 0,
+      "speed": 0
+    }
+  };
+
+
+  // shim layer with setTimeout fallback
+  window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame       ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame    ||
+            function( callback ){
+              window.setTimeout(callback, 1000 / 60);
+            };
+  })();
+
+  // randomize planet angles and speeds
+  for(var p in planets){
+    planets[p].ang = Math.random() * (2 * Math.PI);
+    planets[p].speed = Math.random() * 0.01 + 0.005;
+  }
+
+  function update(){
+    for(var p in planets){
+      planets[p].ang += planets[p].speed;
+      var r = Math.sqrt( Math.pow( 275 - planets[p].x, 2 ) + Math.pow(  275 - planets[p].y, 2) );
+      var nx = r * Math.cos(planets[p].ang) + 275;
+      var ny = r * Math.sin(planets[p].ang) + 275;
+      planets[p].x = nx;
+      planets[p].y = ny;
+    }
+  }
+
+  (function animloop(){
+    requestAnimFrame(animloop);
+    update();
+    render();
+  })();
+
+  function render(){
+    ctx.clearRect(0, 0, 550, 550);
+
+    // setup background
+    ctx.fillStyle = "#333";
+    ctx.fillRect(0,0,600,800);
+
+    // arcs
+    var arcs = [];
+    for( var p in planets){
+      var r = Math.sqrt( Math.pow( 275 - planets[p].x, 2 ) + Math.pow(  275 - planets[p].y, 2) );
+      arcs.push( r );
+    }
+    arcs.sort().reverse();
+    for(var i in arcs){
+      ctx.beginPath();
+      ctx.strokeStyle = "#404040";
+      ctx.arc(275, 275, arcs[i], 0, 2 * Math.PI, false);
+      ctx.stroke(); ctx.closePath();
+    }
+
+    // planets
+    for( var p in planets){
+      p = planets[p];
+
+      // inner
+      ctx.beginPath();
+      ctx.fillStyle = p.color.out;
+      ctx.arc(p.x, p.y, p.rad.out, 0, 2 * Math.PI, false);
+      ctx.fill(); ctx.closePath();
+
+      // outer
+      ctx.beginPath();
+      ctx.fillStyle = p.color.in;
+      ctx.arc(p.x, p.y, p.rad.in, 0, 2 * Math.PI, false);
+      ctx.fill(); ctx.closePath();
+    }
+  }
+</script>
+</body></html>
