@@ -1,7 +1,11 @@
-# solar
+# Solar
 
-Models of various solar systems that perhaps exist somewhere in the multiverse. [live demo](https://strawstack.github.com/InteractiveArt/solar)
+A solar systems that perhaps exists somewhere in the multiverse. 
+
+# Live Demo
+
+[View Live Demo](https://regularmemory.blog/SolarAnimation/)
 
 # ScreenShot
 
-[![](./screenshot.png)](http://strawstack.github.io/solar)
+[![](./screenshot.png)](https://regularmemory.blog/SolarAnimation/)
