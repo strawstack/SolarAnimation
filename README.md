@@ -4,8 +4,8 @@ A solar systems that perhaps exists somewhere in the multiverse.
 
 # Live Demo
 
-[View Live Demo](https://regularmemory.blog/SolarAnimation/)
+[View Live Demo](https://strawstack.github.io/SolarAnimation/)
 
 # ScreenShot
 
-[![](./screenshot.png)](https://regularmemory.blog/SolarAnimation/)
+[![](./screenshot.png)](https://strawstack.github.io/SolarAnimation/)
